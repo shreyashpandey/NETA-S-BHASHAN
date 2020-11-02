@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SignUp</title>
+</head>
+<body>
+<form id="f" action="login.html" method="post">
+Name: <input id="n" type="text"/>
+<br>
+Email:<input id="e" type="email"/>
+<br>
+Password:<input id="p" type="password"/>
+<br>
+Confirm Password:<input id="cp" type="password"/>
+<br>
+<button onclick="Sub()">Submit</button>
+</form>
+<script>
+var user=JSON.parse(localStorage.getItem("users"));
+function Sub(){
+    if(document.getElementById("p").value==document.getElementById("cp").value)
+    {
+        
+        var u={name:document.getElementById("n").value,email:document.getElementById("e").value,password:document.getElementById("p").value,speeches:[]};
+        user.push(u);
+        localStorage.setItem("users",JSON.stringify(user));
+        document.getElementById("f").submit();
+    }
+}
+</script>
+</body>
+</html>

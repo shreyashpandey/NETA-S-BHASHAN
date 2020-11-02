@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SignUp</title>
+</head>
+<body>
+<form id="f" action="neta.html" method="post">
+
+Email:<input id="e" type="email"/>
+<br>
+Password:<input id="p" type="password"/>
+<br>
+
+<button onclick="Sub()">Submit</button>
+</form>
+<script>
+var user=[];
+function Sub(){
+  var us=JSON.parse(localStorage.getItem("users"));
+  for(var i=0;i<us.length;i++)
+  {
+      if(document.getElementById("e").value==us[i]["email"]&&document.getElementById("p").value==us[i]["password"])
+      {
+        localStorage.setItem("PresentUser",us[i]["name"])
+      document.getElementById("f").submit();
+      }
+
+  }
+}
+</script>
+</body>
+</html>

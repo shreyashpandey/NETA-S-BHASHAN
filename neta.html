@@ -1,0 +1,353 @@
+<!doctype html><html>
+<head>
+<title>NETAJI SPEECH
+</title>
+<style>
+    .dropdown {
+   position:absolute;
+   top:900px;
+   left:-1200px;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: block;
+    position:absolute;
+    top:00px;
+    background-color: #f6f6f6;
+    min-width: 230px;
+    overflow: auto;
+    border: 1px solid #ddd;
+    z-index: 1;
+    left:1200px;top:-440px;
+  }
+  
+  .dropdown-content p {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+    </style>
+</style>
+</head>
+<body onload="wel()">
+    <div id="wel" style="border:10px;margin:10px;padding:10px;overflow:auto;z-index:25;border-color:black;"></div>
+<form name="f1" action="javascript:void(0)" onsubmit="a()">
+<input type="text" id="n1" required/>
+<br>
+<img id="i1" src="mice.png" onclick="startDictation()" alt="mice" >
+<br>
+<input type="submit"/>
+</form>
+<br>
+<br>
+<br>
+<div class="dropdown">
+
+    <div id="myDropdown" class="dropdown-content">
+      <input type="text" placeholder="Search.." id="myInput" onkeyup="betterFunction()"style="position:relative;" >
+      <img id="i2" src="mice.png" onclick="startDictation1()" alt="mice" >
+    </div>
+  </div>
+<div id="name0"></div>
+<a href="login.html">Logout</a>
+<script>
+var q=JSON.parse(localStorage.getItem("Speeches"));
+var recognition = new webkitSpeechRecognition();
+var rec=new webkitSpeechRecognition();
+var p;
+var del=[];
+var de;
+function del1(e)
+{
+  //console.log(del2);
+  console.log(e.target.parentElement.innerHTML);
+  var r=e.target.parentElement.innerHTML;
+  var f="";
+  for(var k=0;k<r.length;k++)
+  {
+    if(r.charAt(k)=='<')
+    break;
+    else
+    f+=r.charAt(k);
+  }
+  console.log(f);
+  e.target.parentElement.remove();
+
+  var us=JSON.parse(localStorage.getItem("users"));
+  for(var i=0;i<us.length;i++)
+  {
+    for(var j=0;j<us[i]["speeches"].length;j++)
+    {
+
+        if(us[i]["speeches"][j]["speech"]==f)
+        {
+          us[i]["speeches"].splice(j,1);
+        }
+        if(f=="undefined")
+        {
+          us[i]["speeches"].splice(j,1);
+        }
+    }
+  }
+  localStorage.setItem("users",JSON.stringify(us));
+}
+function edit(e)
+{
+  if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+      
+    console.log("Hello");
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.lang = "en-US";
+    recognition.start();
+
+    recognition.onresult = function(e1) {
+      
+      document.getElementById('name'+0).innerHTML
+                              = e1.results[0][0].transcript;
+      p=e1.results[0][0].transcript;
+      recognition.stop();
+    };
+    }
+    var ps=localStorage.getItem("PresentUser");
+    var us=JSON.parse(localStorage.getItem("users"));
+    console.log(e.target.parentElement.innerHTML);
+  var r=e.target.parentElement.innerHTML;
+  var f="";
+  for(var k=0;k<r.length;k++)
+  {
+    if(r.charAt(k)=='<')
+    break;
+    else
+    f+=r.charAt(k);
+  }
+  console.log(f);
+  e.target.parentElement.remove();
+
+  //var us=JSON.parse(localStorage.getItem("users"));
+  for(var i=0;i<us.length;i++)
+  {
+    if(us[i]["name"]==ps)
+    for(var j=0;j<us[i]["speeches"].length;j++)
+    {
+
+        if(us[i]["speeches"][j]["speech"]==f)
+        {
+          us[i]["speeches"][j]["speech"]=p;
+        }
+    }
+  }
+  localStorage.setItem("users",JSON.stringify(us));
+
+}
+var j1;
+function wel()
+{
+    var  h1=document.createElement("h1");
+    h1.innerHTML=localStorage.getItem("PresentUser");
+    document.getElementById("wel").appendChild(h1);
+    var ps=localStorage.getItem("PresentUser");
+    var us=JSON.parse(localStorage.getItem("users"));
+    for(var i=0;i<us.length;i++)
+    {
+        if(us[i]["name"]==ps)
+        {
+            for(j1=0;j1<us[i]["speeches"].length;j1++)
+            {
+                var div=document.createElement("div");
+                div.innerHTML=us[i]["speeches"][j1]["speech"];
+                del[j1]=JSON.stringify(us[i]["speeches"][j1]["speech"]);
+                //de=j
+                console.log(del[j1]);
+                var b=document.createElement("button");
+                b.innerHTML="Edit";
+                b.setAttribute("onclick","edit(event)");
+                var b1=document.createElement("button");
+                b1.innerHTML="Delete";
+                b1.setAttribute("onclick","del1(event)");
+                div.appendChild(b);
+                div.appendChild(b1);
+                document.getElementById("wel").appendChild(div);
+            }
+        }
+      
+    }
+}
+
+function startDictation() {
+
+if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+  
+  console.log("Hello");
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.lang = "en-US";
+  recognition.start();
+
+  recognition.onresult = function(e) {
+    
+    document.getElementById('name'+0).innerHTML
+                             = e.results[0][0].transcript;
+    p=e.results[0][0].transcript;
+    recognition.stop();
+  };
+}
+}
+var m;
+function startDictation1() {
+
+if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.lang = "en-US";
+  recognition.start();
+
+  recognition.onresult = function(e) {
+     
+    document.getElementById("myInput").value
+                             = e.results[0][0].transcript;
+    m=e.results[0][0].transcript;
+
+   
+  };
+  betterFunction();
+ /* var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("myDropdown");
+  a = document.getElementsByTagName("p");
+    console.log(a);
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    console.log(txtValue);
+    a[i].style.display="none";
+    if (txtValue.toUpperCase().indexOf(e.results[0][0].transcript) > -1) {
+      if(e.results[0][0].transcript.trim(" ")=="")
+      a[i].style.display="none";
+      else
+      a[i].style.display = "block";
+    } else {
+      a[i].style.display = "none";
+    }
+    
+  }*/
+
+}
+}
+var p1;
+function a()
+{
+    recognition.stop();
+    var ps=localStorage.getItem("PresentUser");
+    var n={author:ps,
+            speech:p};
+            console.log(n);
+    q.push(n);
+    var us=JSON.parse(localStorage.getItem("users"));
+    for(var i=0;i<us.length;i++)
+    {
+        if(us[i]["name"]==ps)
+        us[i]["speeches"].push(n);
+    }
+    localStorage.setItem("users",JSON.stringify(us));
+    /*for(var i=0;i<us.length;i++)
+    {
+      for(var j=0;j<us[i]["speeches"].length;j++)
+      {
+        p1=document.createElement("p");
+        p1.style.display="none";
+        p1.innerHTML=us[i]["speeches"][j];
+        document.getElementById("myDropdown").appendChild(p1);
+      }
+    }*/
+    
+    b();
+    localStorage.setItem("Speeches",JSON.stringify(q));
+p='';
+document.forms[0].reset();
+}
+function b()
+{
+ var e = document.getElementById("myDropdown"); 
+        var first = e.firstElementChild; 
+        var c1=0;
+        while(first)
+        {
+          first=e.firstElementChild;
+          c1+=1;
+          if(c1==2)
+          break;
+        }
+        if(first.tagName=="p")
+          {
+        while (first) { 
+          
+            first.remove(); 
+            first = e.firstElementChild; 
+            console.log(bitches);
+          }
+        }
+var ps1=localStorage.getItem("PresentUser"); 
+var us1=JSON.parse(localStorage.getItem("users"));
+for(var i=0;i<us1.length;i++)  
+    {
+      for(var j=0;j<us1[i]["speeches"].length;j++)
+      {
+        p1=document.createElement("p");
+        p1.style.display="none";
+        p1.innerHTML=JSON.stringify(us1[i]["speeches"][j]["speech"]);
+        document.getElementById("myDropdown").appendChild(p1);
+        console.log(p1);
+      }
+    }
+ }
+b();
+let counter=0;
+function filterFunction() {
+  console.log("Fetching Data ..", counter++);
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("myDropdown");
+  a = document.getElementsByTagName("p");
+  var ps=localStorage.getItem("PresentUser");
+
+  console.log(a);
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    console.log(txtValue);
+    a[i].style.display="none";
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      if(input.value.trim(" ")=="")
+      a[i].style.display="none";
+      else
+      a[i].style.display = "block";
+    } else {
+      a[i].style.display = "none";
+    }
+    
+  }
+}
+let debounce = function (fn, d) {
+  let timer;
+  return function () {
+    let context = this,
+      args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      filterFunction.apply(context, arguments);
+    }, d);
+  }
+}
+let betterFunction = debounce(filterFunction, 300);
+</script>
+</body>
+</html>
